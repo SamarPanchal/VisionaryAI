@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Dark theme website with a modern responsive navbar.">
+    <meta name="keywords" content="HTML, CSS, Bootstrap, Dark Theme, Navbar">
+    <meta name="author" content="Samar Panchal">
+    
+    <title>VisionaryAI | Home</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    <!-- Custom Styles for Dark Theme -->
+    <style>
+        body {
+            background-color: #121212;
+            color: #ffffff;
+        }
+
+        .navbar-dark {
+            background-color: #1c1c1c;
+        }
+
+        .navbar-dark .nav-link {
+            color: #ffffff;
+            font-size: 14px;
+            margin: 0 5px;
+        }
+
+        .navbar-dark .nav-link:hover {
+            color: #00ff7f;
+            transition: 0.3s ease;
+        }
+
+        .container {
+            margin-top: 40px;
+        }
+
+        #reg {
+            color: #00ff7b;
+        }
+        img {
+            max-width: 100%; /* Scale down if the container is smaller */
+            max-height: 800px; /* Maintain aspect ratio */
+            display: block; /* Avoid inline-block whitespace issues */
+        }
+        
+
+        .btn {
+            font-family: 'Arial', sans-serif;
+            font-size: 16px;
+            padding: 10px 20px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+        footer {
+            background-color: #1c1c1c;
+            color: #ffffff;
+            text-align: center;
+            padding: 10px 0;
+            font-size: 14px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Dark Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">VisionaryAI</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="/home">Home</a>
+                    </li>
+                    <li class="nav-item">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/generate-image">Generate Image</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href={% url 'subscribe' plan='None' %}>Pricing</a>
+                    </li>
+                    {% if request.user.is_anonymous %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="/login">Login</a>
+                    </li>
+                    {% endif %}
+                    {% if request.user.is_anonymous %}
+                    <li class="nav-item">
+                        <a id="reg" class="nav-link" href="/register"><strong>Join us</strong></a>
+                    </li>
+                    {% else %}
+                    <li class="nav-item">
+                        <a id="reg" class="nav-link" href="/dashboard"><strong>Dashboard</strong></a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+
+    <div id="carouselExample" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-indicators">
+          <button type="button" data-bs-target="#carouselExample" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+          <button type="button" data-bs-target="#carouselExample" data-bs-slide-to="1" aria-label="Slide 2"></button>
+          <button type="button" data-bs-target="#carouselExample" data-bs-slide-to="2" aria-label="Slide 3"></button>
+        </div>
+        <div class="carousel-inner">
+          <div class="carousel-item active">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/ee/Algorithmically-generated_AI-generated_artwork_of_a_futuristic_city.png/800px-Algorithmically-generated_AI-generated_artwork_of_a_futuristic_city.png" class="d-block w-100" alt="Slide 1">
+            <div class="carousel-caption d-none d-md-block">
+              <h5>VisionaryAI's Futuristic Cityscape</h5>
+              <p>AI-generated futuristic cityscape with neon-lit skyscrapers, created using VisionaryAI's powerful image generation tools.</p>
+            </div>
+          </div>
+          <div class="carousel-item">
+            <img src="https://media.licdn.com/dms/image/D5612AQExCHMUUIAqkg/article-cover_image-shrink_720_1280/0/1683151493670?e=2147483647&v=beta&t=EcqPFL8hAPLL9WhoWV3HPsZmt0VaCWjqUgMEWeCSvi0" class="d-block w-100" alt="Slide 2">
+            <div class="carousel-caption d-none d-md-block">
+              <h5>VisionaryAI's Abstract Parrot-Inspired Landscape</h5>
+              <p>Created with VisionaryAI, this vibrant abstract artwork draws inspiration from the vivid colors and textures of parrots. The piece features layered, organic shapes and bold, tropical hues, capturing the lively essence of these birds in a dynamic and imaginative way. VisionaryAI brings natural beauty to life with a creative twist, blending realism and abstraction seamlessly.</p>
+            </div>
+          </div>
+          <div class="carousel-item">
+            <img src="https://cdn.pixabay.com/photo/2023/09/23/09/03/ai-generated-8270519_960_720.png" class="d-block w-100" alt="Slide 3">
+            <div class="carousel-caption d-none d-md-block">
+              <h5>VisionaryAI's Cozy Cat and Dog Duo</h5>
+              <p>Generated by VisionaryAI, this charming image captures a peaceful moment between a cat and dog lounging together. The soft lighting and lifelike details highlight VisionaryAI's ability to bring warmth and personality to animal portraits, creating scenes that celebrate friendship and companionship.</p>
+            </div>
+          </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
+      </div>
+      
+      <!-- Bootstrap 5 Script Links -->
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+      
+
+    <div class="container">
+
+        <h1>VisionaryAI: A Platform to Create AI Images</h1>
+        <hr>
+    <p><strong>VisionaryAI</strong> is an innovative platform designed to bring the power of artificial intelligence to creative minds. It offers users the ability to generate stunning AI images from text descriptions, making it possible to create anything imaginable. Whether you're an artist, designer, content creator, or just someone with a vivid imagination, VisionaryAI lets you turn your ideas into visual masterpieces in a matter of moments.</p>
+    <br>
+    <p>With <strong>5 free credits</strong> provided upon sign-up, users can start creating right away without needing a subscription or payment upfront. These credits allow you to generate a variety of images, from realistic portraits to abstract art, landscapes, and everything in between. The platform utilizes advanced machine learning models to interpret natural language prompts and transform them into high-quality visuals.</p>
+    <br>
+    <p>One of the key features of VisionaryAI is its intuitive and easy-to-use interface. You simply type in a detailed description of the image you want to create, and the AI takes over, producing images that match your vision. Whether you want to design a futuristic cityscape, a surreal fantasy scene, or even a custom logo, VisionaryAI can bring your creative concepts to life.</p>
+    <br>
+    <p>The platform also allows for continuous exploration and experimentation. You can fine-tune the details of your prompts and regenerate images until you're satisfied with the results. Additionally, VisionaryAI is constantly evolving, incorporating the latest advancements in AI to enhance the quality and creativity of the generated images.</p>
+    <br>
+    <p>For users looking to push the boundaries of what's possible, VisionaryAI offers an array of tools for advanced users to experiment with more complex prompts, giving you greater control over the output. It is a platform that caters to both beginners who want to generate images quickly and seasoned creators who want to delve deeper into AI image generation.</p>
+    <br>
+    <p>Whether you're using VisionaryAI for personal projects, professional design work, or simply exploring the endless possibilities of AI, it offers a creative playground where your imagination is the only limit.</p>
+    </div>
+
+    <!-- Footer -->
+    <footer class="text-center text-white py-4" style="background-color: #1c1c1c;">
+        <p>&copy; 2024 VisionaryAI. All rights reserved.</p>
+    </footer>
+
+    <!-- Bootstrap JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+</body>
+
+</html>

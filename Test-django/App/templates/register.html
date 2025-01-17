@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Sign up for VisionaryAI, a platform for learning programming skills.">
+    <meta name="keywords" content="Sign up, Programming, Learning, Coding, Authentication">
+    <meta name="author" content="Samar Panchal">
+
+    <title>VisionaryAI | Register</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    <!-- Custom Styles for Dark Theme -->
+    <style>
+        body {
+            background-color: #121212;
+            color: #ffffff;
+        }
+
+        .navbar-dark {
+            background-color: #1c1c1c;
+        }
+
+        .navbar-dark .nav-link {
+            color: #ffffff;
+            font-size: 14px;
+            margin: 0 5px;
+        }
+
+        .navbar-dark .nav-link:hover {
+            color: #00ff7f;
+            transition: 0.3s ease;
+        }
+
+        .container {
+            margin-top: 40px;
+        }
+
+        .form-control {
+            background-color: #1c1c1c;
+            color: #ffffff;
+            border: 1px solid #ffffff;
+        }
+
+        .form-control:focus {
+            background-color: #1c1c1c;
+            color: #ffffff;
+            border-color: #00ff7f;
+            outline: none;
+            box-shadow: none;
+        }
+
+        .btn-custom {
+            background-color: #00ff7f;
+            border: none;
+            color: #121212;
+            width: 100%;
+        }
+
+        .btn-custom:hover {
+            background-color: #00d76f;
+        }
+
+        footer {
+            background-color: #1c1c1c;
+            color: #ffffff;
+            text-align: center;
+            padding: 10px 0;
+            font-size: 14px;
+        }
+
+        #reg {
+            color: #00ff7b;
+        }
+
+        .info-txt { 
+            color: #B9B9B9;
+            font-weight: lighter;
+            font-style: italic;
+            display: block;
+        }
+
+        .btn {
+            font-family: 'Arial', sans-serif;
+            font-size: 16px;
+            padding: 10px 20px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        .info-txt:hover {
+            color: #ffffff;
+            transition: color 500ms linear;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Dark Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">VisionaryAI</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="/home">Home</a>
+                    </li>
+                    <li class="nav-item">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/generate-image">Generate Image</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href={% url 'subscribe' plan='None' %}>Pricing</a>
+                    </li>
+                    {% if request.user.is_anonymous %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="/login">Login</a>
+                    </li>
+                    {% endif %}
+                    {% if request.user.is_anonymous %}
+                    <li class="nav-item">
+                        <a id="reg" class="nav-link" href="/register"><strong>Join us</strong></a>
+                    </li>
+                    {% else %}
+                    <li class="nav-item">
+                        <a id="reg" class="nav-link" href="/dashboard"><strong>Dashboard</strong></a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!-- Registration Form -->
+    <div class="container">
+        <div class="d-flex justify-content-center align-items-center">
+            <h1 class="display-4 fw-bold mb-3 text-center">Register Your Account</h1>
+        </div>  
+        
+        <hr>
+        <p class="text-center">Please fill out the form below to create a new account.</p>
+
+        <!-- Display Messages -->
+        {% for msg in messages %}
+        {% if msg.tags == 'error' %}
+        <div class="alert alert-danger alert-dismissible fade show" role="alert" id="success-alert">
+            <strong>Error!</strong> {{ msg }}.
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endif %}
+        {% if msg.tags == 'success' %}
+        <div class="alert alert-success alert-dismissible fade show" role="alert" id="success-alert">
+            <strong>Success!</strong> {{ msg }}.
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endif %}
+        {% endfor %}
+
+        <form method="post" action="/register/">
+            {% csrf_token %}
+            <div class="form-group mb-3">
+                <label for="username">Username</label>
+                <input type="text" class="form-control" id="username" name="username" placeholder="Choose a username"
+                    required>
+            </div>
+
+            <div class="form-group mb-3">
+                <label for="email">Email</label>
+                <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email"
+                    required>
+                <p class="info-txt">* Inappropriate email can lead to trouble in password reset</p>
+            </div>
+
+            <div class="form-group mb-3">
+                <label for="password">Password</label>
+                <input type="password" class="form-control" id="password" name="password"
+                    placeholder="Create a password" required>
+            </div>
+
+            <div class="form-group mb-3">
+                <label for="password_confirm">Confirm Password</label>
+                <input type="password" class="form-control" id="password_confirm" name="password_confirm"
+                    placeholder="Confirm your password" required>
+            </div>
+
+            <button type="submit" class="btn btn-custom">Register</button>
+        </form>
+
+        <div class="text-center mt-3">
+            <p>Already have an account? <a href="/login" style="color: #00ff7f;">Log in here</a></p>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="text-center text-white py-4">
+        <p>&copy; 2024 VisionaryAI. All rights reserved.</p>
+    </footer>
+
+    <!-- Bootstrap JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+</body>
+
+</html>

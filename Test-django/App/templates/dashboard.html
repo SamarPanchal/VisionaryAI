@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Dashboard page for VisionaryAI, an AI-powered image generation platform.">
+    <meta name="keywords" content="Dashboard, AI, Image Generation, Coding">
+    <meta name="author" content="Samar Panchal">
+
+    <title>VisionaryAI | Dashboard</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    <!-- Custom Styles for Dark Theme -->
+    <style>
+        body {
+            background-color: #121212;
+            color: #ffffff;
+        }
+
+        .navbar-dark {
+            background-color: #1c1c1c;
+        }
+
+        .navbar-dark .nav-link {
+            color: #ffffff;
+            font-size: 14px;
+            margin: 0 5px;
+        }
+
+        .navbar-dark .nav-link:hover {
+            color: #00ff7f;
+            transition: 0.3s ease;
+        }
+
+        .container {
+            margin-top: 40px;
+        }
+
+        .card {
+            background-color: #1c1c1c;
+            border: 1px solid #ffffff;
+        }
+
+        .card-body {
+            color: #ffffff;
+        }
+
+        .card:hover {
+            border-color: #00ff7f;
+        }
+
+        .btn-custom {
+            background-color: #00ff7f;
+            border: none;
+            color: #121212;
+        }
+
+        .btn-custom:hover {
+            background-color: #00d76f;
+        }
+
+        footer {
+            background-color: #1c1c1c;
+            color: #ffffff;
+            text-align: center;
+            padding: 10px 0;
+            font-size: 14px;
+        }
+
+        .btn {
+            font-family: 'Arial', sans-serif;
+            font-size: 16px;
+            padding: 10px 20px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        #reg {
+            color: #00ff7b;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">VisionaryAI</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="/home">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/generate-image">Generate Image</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href={% url 'subscribe' plan='None' %}>Pricing</a>
+                    </li>
+                    {% if request.user.is_anonymous %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="/login">Login</a>
+                    </li>
+                    {% endif %}
+                    {% if request.user.is_anonymous %}
+                    <li class="nav-item">
+                        <a id="reg" class="nav-link" href="/register"><strong>Join us</strong></a>
+                    </li>
+                    {% else %}
+                    <li class="nav-item">
+                        <a id="reg" class="nav-link" href="/dashboard"><strong>Dashboard</strong></a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Display Messages -->
+    {% for msg in messages %}
+    {% if msg.tags == 'error' %}
+    <div class="alert alert-danger alert-dismissible fade show" role="alert" id="success-alert">
+        <strong>Error!</strong> {{ msg }}.
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endif %}
+    {% if msg.tags == 'success' %}
+    <div class="alert alert-success alert-dismissible fade show" role="alert" id="success-alert">
+        <strong>Success!</strong> {{ msg }}.
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endif %}
+    {% endfor %}
+
+       <!-- Dashboard Content -->
+       <div class="container">
+        <div class="d-flex justify-content-center align-items-center">
+            <h1 class="display-4 fw-bold mb-3 text-center">Welcome, {{ user.username }}</h1>
+        </div>        
+        <p class="text-center mb-5">Track your generated images, view them, and manage your account on VisionaryAI.</p>
+
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="card h-100 shadow-lg">
+                    <div class="card-body text-center">
+                        <h5 class="card-title mb-3">View Generated Images</h5>
+                        <p class="card-text">Access your previously generated images easily.</p>
+                        <br>
+                        <a href="/view-images" class="btn btn-custom w-100">View Images</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card h-100 shadow-lg">
+                    <div class="card-body text-center">
+                        <h5 class="card-title mb-3">Subscription</h5>
+                        <p class="card-text">Stay updated with your subscription to keep generating images.</p>
+                        {% if plan %}
+                        <a href="{% url 'status' %}" class="btn btn-custom w-100">View Status</a>
+                        {% else %}
+                        <a href="{% url 'subscribe' plan='None' %}" class="btn btn-custom w-100">Subscribe Now</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card h-100 shadow-lg">
+                    <div class="card-body text-center">
+                        <h5 class="card-title mb-3">Account Settings</h5>
+                        <p class="card-text">Adjust your account settings and log out securely.</p>
+                        <br>
+                        <a href="/logout" class="btn btn-custom w-100">Logout</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Footer -->
+    <footer class="text-center text-white py-4 mt-4">
+        <p>&copy; 2024 VisionaryAI. All rights reserved.</p>
+    </footer>
+
+    <!-- Bootstrap JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+</body>
+
+</html>

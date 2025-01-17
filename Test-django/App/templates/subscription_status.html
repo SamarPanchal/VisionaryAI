@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Check your subscription status on VisionaryAI.">
+    <meta name="keywords" content="Subscription, Status, VisionaryAI">
+    <meta name="author" content="Samar Panchal">
+
+    <title>VisionaryAI | Subscription Status</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    <!-- Custom Styles for Dark Theme -->
+    <style>
+        body {
+            background-color: #121212;
+            color: #ffffff;
+        }
+
+        .navbar-dark {
+            background-color: #1c1c1c;
+        }
+
+        .navbar-dark .nav-link {
+            color: #ffffff;
+            font-size: 14px;
+            margin: 0 5px;
+        }
+
+        .navbar-dark .nav-link:hover {
+            color: #00ff7f;
+            transition: 0.3s ease;
+        }
+
+        .container {
+            margin-top: 40px;
+        }
+
+        /* Styling for the info box */
+        .info-box {
+            background: linear-gradient(135deg, #2e2e2e, #1c1c1c);
+            color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+            margin-top: 20px;
+        }
+    
+        .info-box h2 {
+            color: #00ff7f;
+            margin-bottom: 15px;
+        }
+    
+        .info-box p {
+            font-size: 16px;
+            line-height: 1.6;
+        }
+    
+        /* Styling for the confirmation card */
+        .info-box .card-title {
+            color: #ff5757;
+            font-weight: bold;
+            font-size: 20px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+    
+        .info-box label .form-check-label {
+            font-size: 16px;
+            color: #ffffff;
+            line-height: 1.5;
+        }
+    
+        .info-box label .form-check-label strong {
+            color: #ff5757;
+        }
+    
+        /* Styling for the button */
+        #confirmButton {
+            font-size: 16px;
+            font-weight: bold;
+            text-transform: uppercase;
+            padding: 10px;
+            width: 100%; /* Full-width for better alignment */
+            background-color: #ff5757;
+            border: none;
+            border-radius: 5px;
+            cursor: not-allowed; /* Default state */
+            transition: background-color 0.3s, transform 0.2s;
+        }
+    
+        #confirmButton:not(.disabled) {
+            cursor: pointer;
+        }
+    
+        #confirmButton:not(.disabled):hover {
+            background-color: #ff1e1e;
+            transform: translateY(-2px);
+        }
+    
+        #confirmButton:not(.disabled):active {
+            background-color: #d41515;
+            transform: translateY(0);
+        }
+    
+        /* Media query for responsiveness */
+        @media (max-width: 576px) {
+            .info-box {
+                padding: 15px;
+            }
+    
+            .info-box h2 {
+                font-size: 18px;
+            }
+    
+            .info-box p {
+                font-size: 14px;
+            }
+    
+            .info-box .card-title {
+                font-size: 18px;
+            }
+    
+            .info-box label .form-check-label {
+                font-size: 14px;
+            }
+    
+            #confirmButton {
+                font-size: 14px;
+            }
+        }
+
+        footer {
+            background-color: #1c1c1c;
+            color: #ffffff;
+            text-align: center;
+            padding: 10px 0;
+            font-size: 14px;
+        }
+        .btn {
+            font-family: 'Arial', sans-serif;
+            font-size: 16px;
+            padding: 10px 20px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+        .card {
+            width: 400px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border: none;
+            border-radius: 10px;
+        }
+        .disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        #reg {
+            color: #00ff7b;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Dark Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">VisionaryAI</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="/home">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/generate-image">Generate Image</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href={% url 'subscribe' plan='None' %}>Pricing</a>
+                    </li>
+                    {% if request.user.is_anonymous %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="/login">Login</a>
+                    </li>
+                    {% endif %}
+                    {% if request.user.is_anonymous %}
+                    <li class="nav-item">
+                        <a id="reg" class="nav-link" href="/register"><strong>Join us</strong></a>
+                    </li>
+                    {% else %}
+                    <li class="nav-item">
+                        <a id="reg" class="nav-link" href="/dashboard"><strong>Dashboard</strong></a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Subscription Time Left Section -->
+    <div class="container">
+        <div class="d-flex justify-content-center align-items-center">
+            <h1 class="display-4 fw-bold mb-3 text-center">Subscription Status</h1>
+        </div>  
+        <hr>
+        <div class="info-box">
+            <h2>Time Left:</h2>
+            <p>Your remaining Credits expires on <strong>{{ subscription_end_date }}</strong>.</p>
+            <p>Time remaining: <strong>{{ time_remaining }}</strong>.</p>
+            <hr>
+            <h5 class="card-title">DANGEROUS AREA</h5>
+            <label class="form-check">
+                <input type="checkbox" id="confirmationCheckbox1" class="form-check-input">
+                <span class="form-check-label">
+                    I will get <strong>no refund/no money</strong> back after deleting this subscription!
+                </span>
+            </label>
+            <label class="form-check">
+                <input type="checkbox" id="confirmationCheckbox2" class="form-check-input">
+                <span class="form-check-label">
+                    I am sure to <strong>delete</strong> this subscription.
+                </span>
+            </label>
+            <form method="post" action="{% url 'status' %}">
+                {% csrf_token %}
+                <button id="confirmButton" class="btn btn-danger disabled mt-3" disabled>Delete Subscription</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="text-center text-white py-4">
+        <p>&copy; 2024 VisionaryAI. All rights reserved.</p>
+    </footer>
+
+    <!-- Bootstrap JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const checkbox1 = document.getElementById('confirmationCheckbox1');
+            const checkbox2 = document.getElementById('confirmationCheckbox2');
+            const button = document.getElementById('confirmButton');
+            const submit = document.getElementById('submit-btn');
+            const prompt = document.getElementById('confirmPrompt');
+        
+            // Enable/disable the button based on checkbox state
+            checkbox1.addEventListener('change', () => {
+                if (checkbox1.checked && checkbox2.checked){
+                    button.disabled = false;
+                    button.classList.remove('disabled');
+                } else {
+                    button.disabled = true;
+                    button.classList.add('disabled');
+                }
+            });
+
+            checkbox2.addEventListener('change', () => {
+                if (checkbox1.checked && checkbox2.checked){
+                    button.disabled = false;
+                    button.classList.remove('disabled');
+                } else {
+                    button.disabled = true;
+                    button.classList.add('disabled');
+                }
+            });
+
+            submit.addEventListener('click', () => {
+                if (prompt.style.display === 'none') {
+                    prompt.style.display = 'block';
+                } else {
+                    prompt.style.display = 'none';
+                }
+            });
+            
+        
+            // Optional: Add an action for when the button is clicked
+            button.addEventListener('click', () => {
+                alert('You have confirmed the terms and conditions!');
+            });
+        });
+        
+    </script>
+</body>
+
+</html>
